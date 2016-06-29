@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "test": "defence README.md | replace-require-self | node",
-    "test": "node test.js",
     "lint": "standard"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+```javascript
 var StrataEstimator = require('./')
 var TextDecoder = require('text-encoding').TextDecoder
 var crypto = require('crypto')
@@ -91,3 +92,4 @@ assert.equal(has100.decode(has100), 0)
 assert.equal(has100.decode(has75), 25)
 assert.equal(has100.decode(has50), 50)
 assert.equal(has100.decode(has25), 75)
+```
