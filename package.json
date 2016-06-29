@@ -1,0 +1,23 @@
+{
+  "name": "strata-estimator",
+  "version": "0.0.0",
+  "description": "strata set difference estimator",
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "repository": "kemitchell/strata-estimator.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "defence README.md | replace-require-self | node",
+    "test": "node test.js",
+    "lint": "standard"
+  },
+  "devDependencies": {
+    "defence-cli": "^2.0.0",
+    "murmurhash": "0.0.2",
+    "replace-require-self": "^1.1.1",
+    "standard": "^7.1.2",
+    "text-encoding": "^0.6.0"
+  },
+  "dependencies": {
+    "ibf": "^3.0.0"
+  }
+}
