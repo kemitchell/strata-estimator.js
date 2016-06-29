@@ -58,7 +58,7 @@ function tripleMurmur (buffer) {
 }
 
 var keys = []
-for (var i = 0; i < 1000; i++) {
+for (var i = 0; i < 100; i++) {
   keys.push(
     crypto.createHash('sha256')
       .update(Number(i).toString(36))
@@ -67,16 +67,27 @@ for (var i = 0; i < 1000; i++) {
   )
 }
 
-var hasAll = new StrataEstimator(options)
+var has100 = new StrataEstimator(options)
 keys.forEach(function (key) {
-  hasAll.insert(key)
+  has100.insert(key)
 })
 
-var hasHalf = new StrataEstimator(options)
-keys.slice(500).forEach(function (key) {
-  hasHalf.insert(key)
+var has25 = new StrataEstimator(options)
+keys.slice(0, 25).forEach(function (key) {
+  has25.insert(key)
 })
 
-var decoded = hasAll.decode(hasHalf)
+var has50 = new StrataEstimator(options)
+keys.slice(0, 50).forEach(function (key) {
+  has50.insert(key)
+})
 
-assert.equal(decoded, 500)
+var has75 = new StrataEstimator(options)
+keys.slice(0, 75).forEach(function (key) {
+  has75.insert(key)
+})
+
+assert.equal(has100.decode(has100), 0)
+assert.equal(has100.decode(has75), 25)
+assert.equal(has100.decode(has50), 50)
+assert.equal(has100.decode(has25), 75)

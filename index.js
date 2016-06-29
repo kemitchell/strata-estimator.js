@@ -10,10 +10,23 @@ function StrataEstimator (options) {
   this._hash = options.hash
   var strataCount = this._strataCount = options.strataCount
   var filters = this._filters = options.filters
-  this._strata = []
-  for (var index = 0; index < strataCount; index++) {
-    this._strata.push(new IBF(filters))
+  if (options.strata) this._strata = options.strata
+  else {
+    this._strata = []
+    for (var index = 0; index < strataCount; index++) {
+      this._strata.push(new IBF(filters))
+    }
   }
+}
+
+StrataEstimator.prototype.clone = function () {
+  return new StrataEstimator({
+    hash: this._hash,
+    strataCount: this._strataCount,
+    strata: this._strata.map(function (stratum) {
+      return stratum.clone()
+    })
+  })
 }
 
 StrataEstimator.prototype.insert = function (id) {
@@ -32,12 +45,13 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
   }
   var count = 0
   for (var i = this._strataCount - 1; i >= -1; i--) {
-    if (i < 0) return estimate(i)
+    if (i === -1) return estimate(i)
     var difference = this.stratum(i).clone()
     difference.subtract(theirEstimator.stratum(i))
     var decoded = difference.decode()
     if (!decoded) return estimate(i)
     count += decoded.additional.length
+    count += decoded.missing.length
   }
 
   function estimate (i) {
@@ -63,6 +77,15 @@ var optionValidations = {
   strataCount: isPositiveInteger,
   filters: function (x) {
     return typeof x === 'object'
+  },
+  strata: function (strata) {
+    return strata === undefined ||
+      (
+        Array.isArray(strata) &&
+        strata.every(function (stratum) {
+          return stratum instanceof IBF
+        })
+      )
   }
 }
 
