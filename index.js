@@ -31,8 +31,7 @@ StrataEstimator.prototype.clone = function () {
 
 StrataEstimator.prototype.insert = function (id) {
   var index = trailingZeroes(id, this._hash)
-  var stratum = this.stratum(index)
-  stratum.insert(id)
+  this.stratum(index).insert(id)
 }
 
 StrataEstimator.prototype.stratum = function (index) {
@@ -44,7 +43,8 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
     throw new Error('Different strata counts')
   }
   var count = 0
-  for (var i = this._strataCount - 1; i >= -1; i--) {
+  var i = this._strataCount - 1
+  while (i--) {
     if (i === -1) return estimate(i)
     var difference = this.stratum(i).clone()
     difference.subtract(theirEstimator.stratum(i))
@@ -53,7 +53,6 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
     count += decoded.additional.length
     count += decoded.missing.length
   }
-
   function estimate (i) {
     return Math.pow(2, i + 1) * count
   }
