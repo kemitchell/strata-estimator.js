@@ -4,6 +4,12 @@ as described by Eppstein et al. in
 
 [1]: https://www.ics.uci.edu/~eppstein/pubs/EppGooUye-SIGCOMM-11.pdf
 
+Depends only on [ibf]. [standard] style.
+
+[ibf]: https://npmjs.com/packages/ibf
+
+[standard]: https://npmjs.com/packages/standard
+
 ```javascript
 var StrataEstimator = require('strata-estimator')
 
