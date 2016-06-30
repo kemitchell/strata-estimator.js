@@ -7,7 +7,7 @@ as described by Eppstein et al. in
 The example in this `README` is run as the package's test suite.
 
 ```javascript
-var StrataEstimator = require('./')
+var StrataEstimator = require('strata-estimator')
 var crypto = require('crypto')
 var assert = require('assert')
 var xxh = require('xxhashjs').h32
