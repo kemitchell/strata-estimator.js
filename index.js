@@ -76,18 +76,8 @@ function trailingZeroes (key, hash) {
 var optionValidations = {
   hash: isHash,
   strataCount: isPositiveInteger,
-  filters: function (x) {
-    return typeof x === 'object'
-  },
-  strata: function (strata) {
-    return strata === undefined ||
-      (
-        Array.isArray(strata) &&
-        strata.every(function (stratum) {
-          return stratum instanceof InvertibleBloomFilter
-        })
-      )
-  }
+  filters: function (x) { return typeof x === 'object' },
+  strata: optional(arrayOfBloomFilters)
 }
 
 function validateOptions (options) {
@@ -95,6 +85,18 @@ function validateOptions (options) {
     if (!optionValidations[option](options[option])) {
       throw new Error('Invalid ' + option)
     }
+  })
+}
+
+function optional (predicate) {
+  return function (option) {
+    return option === undefined || predicate(option)
+  }
+}
+
+function arrayOfBloomFilters (array) {
+  return Array.isArray(array) && array.every(function (stratum) {
+    return stratum instanceof InvertibleBloomFilter
   })
 }
 
