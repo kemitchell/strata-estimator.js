@@ -3,59 +3,36 @@ var StrataEstimator = require('./')
 var TextDecoder = require('text-encoding').TextDecoder
 var crypto = require('crypto')
 var assert = require('assert')
-var murmur = require('murmurhash').v3
+var xxh = require('xxhashjs').h32
 
 var cellCount = 80
 
+var seeds = [0x0000, 0x9999, 0xFFFF]
+
 var options = {
-  hash: numberMurmur,
+  hash: function (input) {
+    return xxh(input, 0xAAAA)
+  },
   strataCount: 32,
   filters: {
     cellCount: cellCount,
-    checkHash: binaryMurmur,
-    keyHashes: [singleMurmur, doubleMurmur, tripleMurmur],
+    checkHash: function binaryXXH (idBuffer) {
+      var digest = xxh(idBuffer, 0x1234)
+      var digestBuffer = new ArrayBuffer(4)
+      new Uint32Array(digestBuffer)[0] = digest
+      return digestBuffer
+    },
+    keyHashes: seeds.map(function (seed) {
+      return function (id) {
+        return xxh(id, seed) % cellCount
+      }
+    }),
     countView: Int32Array,
     idSumElements: 8,
     idSumView: Uint32Array,
     hashSumElements: 1,
     hashSumView: Uint32Array
   }
-}
-
-function bufferToString (buffer) {
-  return new TextDecoder('utf8').decode(new Uint8Array(buffer))
-}
-
-function numberMurmur (buffer) {
-  var inputString = bufferToString(buffer)
-  return murmur(inputString)
-}
-
-function binaryMurmur (buffer) {
-  var inputString = bufferToString(buffer)
-  var digestNumber = murmur(inputString)
-  var digestBuffer = new ArrayBuffer(4)
-  var digestView = new Uint32Array(digestBuffer)
-  digestView[0] = digestNumber
-  return digestBuffer
-}
-
-function singleMurmur (buffer) {
-  return murmur(bufferToString(buffer)) % cellCount
-}
-
-function doubleMurmur (buffer) {
-  return murmur(
-    murmur(bufferToString(buffer)).toString()
-  ) % cellCount
-}
-
-function tripleMurmur (buffer) {
-  return murmur(
-    murmur(
-      murmur(bufferToString(buffer)).toString()
-    ).toString()
-  ) % cellCount
 }
 
 var keys = []
