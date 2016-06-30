@@ -4,23 +4,31 @@ as described by Eppstein et al. in
 
 [1]: https://www.ics.uci.edu/~eppstein/pubs/EppGooUye-SIGCOMM-11.pdf
 
-The example in this `README` is run as the package's test suite.
-
 ```javascript
 var StrataEstimator = require('strata-estimator')
-var crypto = require('crypto')
+
+// This code in this `README` is runs as a test suite.
 var assert = require('assert')
+
+// A non-cryptographic hash function.
 var xxh = require('xxhashjs').h32
 
+// The number of cells per invertible bloom filter.
 var cellCount = 80
 
+// Seeds for the three distinct bloom filter hash functions.
 var seeds = [0x0000, 0x9999, 0xFFFF]
 
 var options = {
-  hash: function (input) {
-    return xxh(input, 0xAAAA)
-  },
+  // The hash to use to assign keys to strata.
+  hash: function (input) { return xxh(input, 0xAAAA) },
+
+  // The number of strata.
   strataCount: 32,
+
+  // Options for each stratum's invertible bloom filter, passed to
+  // the ibf package constructor.
+  // See https://npmjs.com/packages/ibf
   filters: {
     cellCount: cellCount,
     checkHash: function binaryXXH (idBuffer) {
@@ -42,10 +50,12 @@ var options = {
   }
 }
 
+// Create some test keys.
+
 var keys = []
 for (var i = 0; i < 100; i++) {
   keys.push(
-    crypto.createHash('sha256')
+    require('crypto').createHash('sha256')
       .update(Number(i).toString(36))
       .digest()
       .buffer
@@ -53,36 +63,28 @@ for (var i = 0; i < 100; i++) {
 }
 
 var has100 = new StrataEstimator(options)
-keys.forEach(function (key) {
-  has100.insert(key)
-})
+keys.slice(0, 100).forEach(function (key) { has100.insert(key) })
 
 var has25 = new StrataEstimator(options)
-keys.slice(0, 25).forEach(function (key) {
-  has25.insert(key)
-})
+keys.slice(0, 25).forEach(function (key) { has25.insert(key) })
 
 var has50 = new StrataEstimator(options)
-keys.slice(0, 50).forEach(function (key) {
-  has50.insert(key)
-})
+keys.slice(0, 50).forEach(function (key) { has50.insert(key) })
 
 var has75 = new StrataEstimator(options)
-keys.slice(0, 75).forEach(function (key) {
-  has75.insert(key)
-})
+keys.slice(0, 75).forEach(function (key) { has75.insert(key) })
 
 assert.equal(has100.decode(has100), 0)
 
 var diff25 = has100.decode(has75)
-assert(diff25 > 25)
+assert(diff25 >= 25)
 assert(diff25 <= 64)
 
 var diff50 = has100.decode(has50)
-assert(diff50 > 50)
+assert(diff50 >= 50)
 assert(diff50 <= 64)
 
 var diff75 = has100.decode(has25)
-assert(diff75 > 75)
+assert(diff75 >= 75)
 assert(diff75 <= 128)
 ```
