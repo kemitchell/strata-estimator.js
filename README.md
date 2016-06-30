@@ -1,4 +1,4 @@
-Invertible Bloom Filter-based strata set difference size estimator
+Invertible Bloom Filter-based strata set difference estimator
 as described by Eppstein et al. in
 [_What's the Difference? Efficient Set Reconciliation without Prior Context_][1].
 
