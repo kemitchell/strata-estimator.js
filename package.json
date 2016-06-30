@@ -5,6 +5,9 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "repository": "kemitchell/strata-estimator.js",
   "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "test": "defence README.md | replace-require-self | node",
     "lint": "npm run lint:code && npm run lint:readme",
