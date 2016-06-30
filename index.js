@@ -61,13 +61,14 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
 
 // Helpers
 
-var ZEROES = /(0*)$/
-
 function trailingZeroes (key, hash) {
   var digest = hash(key)
   var binaryString = Number(digest).toString(2)
-  var match = ZEROES.exec(binaryString)
-  return match[1].length
+  var count = 0
+  for (var index = binaryString.length - 1; index !== -1; index--) {
+    if (binaryString[index] === '0') count++
+    else return count
+  }
 }
 
 // Validation
