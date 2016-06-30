@@ -4,9 +4,11 @@ as described by Eppstein et al. in
 
 [1]: https://www.ics.uci.edu/~eppstein/pubs/EppGooUye-SIGCOMM-11.pdf
 
-Depends only on [ibf]. [standard] style.
+Depends only on [ibf].
 
 [ibf]: https://npmjs.com/packages/ibf
+
+[standard] style.
 
 [standard]: https://npmjs.com/packages/standard
 
