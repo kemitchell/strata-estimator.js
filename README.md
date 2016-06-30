@@ -1,6 +1,5 @@
 ```javascript
 var StrataEstimator = require('./')
-var TextDecoder = require('text-encoding').TextDecoder
 var crypto = require('crypto')
 var assert = require('assert')
 var xxh = require('xxhashjs').h32
@@ -66,7 +65,16 @@ keys.slice(0, 75).forEach(function (key) {
 })
 
 assert.equal(has100.decode(has100), 0)
-assert.equal(has100.decode(has75), 25)
-assert.equal(has100.decode(has50), 50)
-assert.equal(has100.decode(has25), 75)
+
+var diff25 = has100.decode(has75)
+assert(diff25 > 25)
+assert(diff25 <= 64)
+
+var diff50 = has100.decode(has50)
+assert(diff50 > 50)
+assert(diff50 <= 64)
+
+var diff75 = has100.decode(has25)
+assert(diff75 > 75)
+assert(diff75 <= 128)
 ```
