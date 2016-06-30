@@ -1,4 +1,4 @@
-var IBF = require('ibf')
+var InvertibleBloomFilter = require('ibf')
 
 module.exports = StrataEstimator
 
@@ -14,7 +14,7 @@ function StrataEstimator (options) {
   else {
     this._strata = []
     for (var index = 0; index < strataCount; index++) {
-      this._strata.push(new IBF(filters))
+      this._strata.push(new InvertibleBloomFilter(filters))
     }
   }
 }
@@ -84,7 +84,7 @@ var optionValidations = {
       (
         Array.isArray(strata) &&
         strata.every(function (stratum) {
-          return stratum instanceof IBF
+          return stratum instanceof InvertibleBloomFilter
         })
       )
   }
