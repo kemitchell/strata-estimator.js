@@ -1,3 +1,11 @@
+Invertible Bloom Filter-based strata set difference size estimator
+as described by Eppstein et al. in
+[_What's the Difference? Efficient Set Reconciliation without Prior Context_][1].
+
+[1]: https://www.ics.uci.edu/~eppstein/pubs/EppGooUye-SIGCOMM-11.pdf
+
+The example in this `README` is run as the package's test suite.
+
 ```javascript
 var StrataEstimator = require('./')
 var crypto = require('crypto')
