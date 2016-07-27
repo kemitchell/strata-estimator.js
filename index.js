@@ -4,7 +4,7 @@ module.exports = StrataEstimator
 
 function StrataEstimator (options) {
   if (!(this instanceof StrataEstimator)) {
-    return new StrataEstimator(strataCount, filters)
+    return new StrataEstimator(options)
   }
   validateOptions(options)
   this._hash = options.hash

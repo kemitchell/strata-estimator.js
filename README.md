@@ -73,13 +73,15 @@ for (var i = 0; i < 100; i++) {
 var has100 = new StrataEstimator(options)
 keys.slice(0, 100).forEach(function (key) { has100.insert(key) })
 
-var has25 = new StrataEstimator(options)
+// With or without `new`
+
+var has25 = StrataEstimator(options)
 keys.slice(0, 25).forEach(function (key) { has25.insert(key) })
 
 var has50 = new StrataEstimator(options)
 keys.slice(0, 50).forEach(function (key) { has50.insert(key) })
 
-var has75 = new StrataEstimator(options)
+var has75 = StrataEstimator(options)
 keys.slice(0, 75).forEach(function (key) { has75.insert(key) })
 
 assert.equal(has100.decode(has100), 0)
