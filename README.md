@@ -86,6 +86,12 @@ keys.slice(0, 75).forEach(function (key) { has75.insert(key) })
 
 var cloneHas25 = has25.clone()
 
+// Throws an error for bad options
+
+assert.throws(function () {
+  StrataEstimator({})
+})
+
 assert.equal(has100.decode(has100), 0)
 
 var diff25 = has100.decode(has75)
