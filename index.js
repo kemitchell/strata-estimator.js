@@ -40,12 +40,14 @@ StrataEstimator.prototype.stratum = function (index) {
 }
 
 StrataEstimator.prototype.decode = function (theirEstimator) {
+  /* istanbul ignore if */
   if (this._strataCount !== theirEstimator._strataCount) {
     throw new Error('Different strata counts')
   }
   var count = 0
   var i = this._strataCount - 1
   while (i--) {
+    /* istanbul ignore if */
     if (i === -1) return estimate(i)
     var difference = this.stratum(i).clone()
     difference.subtract(theirEstimator.stratum(i))

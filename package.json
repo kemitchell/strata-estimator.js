@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "defence-cli": "^2.0.0",
+    "istanbul": "^0.4.4",
     "replace-require-self": "^1.1.1",
     "standard": "^7.1.2",
     "xxhashjs": "^0.2.1"
@@ -18,6 +19,8 @@
   "license": "MIT",
   "repository": "kemitchell/strata-estimator.js",
   "scripts": {
+    "precoverage": "defence README.md | replace-require-self > test.js && istanbul cover -- test.js ; rm -f test.js",
+    "coverage": "istanbul check-coverage --branches 100 --functions 100 --statements 100 --lines 100",
     "lint": "npm run lint:code && npm run lint:readme",
     "lint:code": "standard",
     "lint:readme": "! defence README.md | standard --stdin --verbose 2>/dev/null | grep -F -v 'no-multiple-empty-lines' | grep -F -v 'standardjs.com'",
