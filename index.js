@@ -22,6 +22,7 @@ function StrataEstimator (options) {
 StrataEstimator.prototype.clone = function () {
   return new StrataEstimator({
     hash: this._hash,
+    filters: this._filters,
     strataCount: this._strataCount,
     strata: this._strata.map(function (stratum) {
       return stratum.clone()
