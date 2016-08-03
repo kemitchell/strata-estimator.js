@@ -64,9 +64,9 @@ var keys = []
 for (var i = 0; i < 100; i++) {
   keys.push(
     require('crypto').createHash('sha256')
-      .update(Number(i).toString(36))
-      .digest()
-      .buffer
+    .update(Number(i).toString(36))
+    .digest()
+    .buffer
   )
 }
 
