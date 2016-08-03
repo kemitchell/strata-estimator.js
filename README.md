@@ -6,11 +6,11 @@ as described by Eppstein et al. in
 
 Depends only on [ibf].
 
-[ibf]: https://npmjs.com/packages/ibf
+[ibf]: https://www.npmjs.com/package/ibf
 
 [standard] style.
 
-[standard]: https://npmjs.com/packages/standard
+[standard]: https://www.npmjs.com/package/standard
 
 ```javascript
 var StrataEstimator = require('strata-estimator')
@@ -36,7 +36,7 @@ var options = {
 
   // Options for each stratum's invertible bloom filter, passed to
   // the ibf package constructor.
-  // See https://npmjs.com/packages/ibf
+  // See https://www.npmjs.com/package/ibf
   filters: {
     cellCount: cellCount,
     checkHash: function binaryXXH (idBuffer) {
