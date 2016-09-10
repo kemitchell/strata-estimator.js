@@ -10,8 +10,9 @@ function StrataEstimator (options) {
   this._hash = options.hash
   var strataCount = this._strataCount = options.strataCount
   var filters = this._filters = options.filters
-  if (options.strata) this._strata = options.strata
-  else {
+  if (options.strata) {
+    this._strata = options.strata
+  } else {
     this._strata = []
     for (var index = 0; index < strataCount; index++) {
       this._strata.push(new InvertibleBloomFilter(filters))
@@ -48,11 +49,15 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
   var i = this._strataCount - 1
   while (i--) {
     /* istanbul ignore if */
-    if (i === -1) return estimate(i)
+    if (i === -1) {
+      return estimate(i)
+    }
     var difference = this.stratum(i).clone()
     difference.subtract(theirEstimator.stratum(i))
     var decoded = difference.decode()
-    if (!decoded) return estimate(i)
+    if (!decoded) {
+      return estimate(i)
+    }
     count += decoded.additional.length
     count += decoded.missing.length
   }
@@ -68,8 +73,11 @@ function trailingZeroes (key, hash) {
   var binaryString = Number(digest).toString(2)
   var count = 0
   for (var index = binaryString.length - 1; index !== -1; index--) {
-    if (binaryString[index] === '0') count++
-    else return count
+    if (binaryString[index] === '0') {
+      count++
+    } else {
+      return count
+    }
   }
 }
 
@@ -78,7 +86,9 @@ function trailingZeroes (key, hash) {
 var optionValidations = {
   hash: isHash,
   strataCount: isPositiveInteger,
-  filters: function (x) { return typeof x === 'object' },
+  filters: function (x) {
+    return typeof x === 'object'
+  },
   strata: optional(arrayOfBloomFilters)
 }
 
@@ -92,14 +102,20 @@ function validateOptions (options) {
 
 function optional (predicate) {
   return function (option) {
-    return option === undefined || predicate(option)
+    return (
+      option === undefined ||
+      predicate(option)
+    )
   }
 }
 
 function arrayOfBloomFilters (array) {
-  return Array.isArray(array) && array.every(function (stratum) {
-    return stratum instanceof InvertibleBloomFilter
-  })
+  return (
+    Array.isArray(array) &&
+    array.every(function (stratum) {
+      return stratum instanceof InvertibleBloomFilter
+    })
+  )
 }
 
 function isHash (hash) {
@@ -107,5 +123,8 @@ function isHash (hash) {
 }
 
 function isPositiveInteger (n) {
-  return Number.isInteger(n) && n > 0
+  return (
+    Number.isInteger(n) &&
+    n > 0
+  )
 }
