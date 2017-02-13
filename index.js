@@ -46,8 +46,7 @@ StrataEstimator.prototype.decode = function (theirEstimator) {
     throw new Error('Different strata counts')
   }
   var count = 0
-  var i = this._strataCount - 1
-  while (i--) {
+  for (var i = this._strataCount - 1; true; i--) {
     /* istanbul ignore if */
     if (i === -1) {
       return estimate(i)
