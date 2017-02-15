@@ -50,11 +50,8 @@ var options = {
         return xxh(id, seed) % cellCount
       }
     }),
-    countView: Int32Array,
-    idSumElements: 8,
-    idSumView: Uint32Array,
-    hashSumElements: 1,
-    hashSumView: Uint32Array
+    idSumOctets: 32,
+    hashSumOctets: 4
   }
 }
 
@@ -96,11 +93,11 @@ assert.equal(has100.decode(has100), 0)
 
 var diff25 = has100.decode(has75)
 assert(diff25 >= 25)
-assert(diff25 <= 64)
+assert(diff25 <= 100)
 
 var diff50 = has100.decode(has50)
 assert(diff50 >= 50)
-assert(diff50 <= 64)
+assert(diff50 <= 100)
 
 var diff75 = has100.decode(has25)
 assert(diff75 >= 75)
